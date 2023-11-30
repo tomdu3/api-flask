@@ -18,11 +18,13 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 
 
-
-
 @app.route('/')
 def index():
 	return 'Hello World'
+
+@app.route('/<name>')
+def print_name(name):
+    return f'Hi, {name}'
 
 
 if __name__ == '__main__':
