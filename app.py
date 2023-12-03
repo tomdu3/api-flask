@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import json
 import os
-import sqlite3
+# import sqlite3
+import pymysql
 
 # load environment variables
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -27,8 +28,17 @@ app.secret_key = os.environ.get('SECRET_KEY')
 def db_connection():
     conn = None
     try:
-        conn = sqlite3.connect('books.sqlite')
-    except sqlite3.error as e:
+        # conn = sqlite3.connect('books.sqlite')
+        conn = pymysql.connect(
+            host=os.environ.get('HOST'),
+            database=os.environ.get('DATABASE'),
+            user=os.environ.get('USER_NAME'),
+            password=os.environ.get('PASSWORD'),
+            charset='utf8',
+            port=int(os.environ.get('PORT')),
+            cursorclass=pymysql.cursors.DictCursor,
+        )
+    except pymysql.error as e:
         print(e)
     return conn
 
